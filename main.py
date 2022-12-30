@@ -68,6 +68,25 @@ def get_dataset_stats(id: int, dataset = Depends(get_dataset)):
     return stats
 
 
+@app.get("/datasets/{id}/plot/")
+def get_dataset_plot(id: int):
+    df = data[id]
+    numerical_columns = df.select_dtypes(include=['int', 'float']).columns
+    for column in numerical_columns:
+        plt.hist(df[column])
+        plt.title(column)
+        plt.show()
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format="pdf")
+    plt.clf()
+    response = Response(
+        content_type="application/pdf",
+        body=buffer.getvalue()
+    )
+    return response
+
+
+
 
 
 
