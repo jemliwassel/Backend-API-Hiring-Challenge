@@ -62,8 +62,10 @@ def export_dataset_excel(id: int, dataset = Depends(get_dataset)):
 
 
 
-
-
+@app.get("/datasets/{id}/stats/")
+def get_dataset_stats(id: int, dataset = Depends(get_dataset)):
+    stats = data[id].describe().to_dict()
+    return stats
 
 
 
