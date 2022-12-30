@@ -54,6 +54,11 @@ def delete_dataset(id: int, dataset = Depends(get_dataset)):
             id : "Deleted",
             }
     
+@app.get("/datasets/{id}/excel/")
+def export_dataset_excel(id: int, dataset = Depends(get_dataset)):
+    df = pd.read_excel(datasets[id])
+    excel_data = df.to_excel("my_file.xlsx")
+    return File(bytes(excel_data, encoding='utf-8'), filename='data.xlsx')
 
 
 
