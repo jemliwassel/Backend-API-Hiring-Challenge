@@ -46,6 +46,14 @@ async def create_dataset(csv_file: UploadFile = File(...)):
 def get_dataset_info(id: int, dataset = Depends(get_dataset)):
         return {"filename": dataset, "size": len(data[id])}
     
+@app.delete("/datasets/{id}/")
+def delete_dataset(id: int, dataset = Depends(get_dataset)):
+    del data[id]
+    del datasets[id]
+    return {"success": True,
+            id : "Deleted",
+            }
+    
 
 
 
